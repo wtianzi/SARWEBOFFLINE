@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../../../chunks/_rollupPluginBabelHelpers ../../../chunks/tslib.es6 ../../../core/has ../../../core/Logger ../../../core/accessorSupport/ensureType ../../../core/accessorSupport/decorators/property ../../../core/jsonMap ../../../core/accessorSupport/decorators/subclass ../../../core/urlUtils ../../../core/uuid ../../../portal/support/resourceExtension ../../layers/OGCFeatureLayerView ./FeatureLayerViewBase3D".split(" "),function(e,b,a,l,m,f,n,g,p,q,r,h,k){a=function(c){function d(){return c.apply(this,
+arguments)||this}e._inheritsLoose(d,c);return d}(h.OGCFeatureLayerView(k));b.__decorate([f.property()],a.prototype,"layer",void 0);return a=b.__decorate([g.subclass("esri.views.3d.layers.OGCFeatureLayerView3D")],a)});

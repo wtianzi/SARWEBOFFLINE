@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("exports ../chunks/_rollupPluginBabelHelpers ../chunks/tslib.es6 ./accessorSupport/decorators/property ./accessorSupport/decorators/subclass ./Accessor".split(" "),function(b,h,e,k,l,m){b.AsyncSequence=function(f){function c(){var a=f.apply(this,arguments)||this;a.updating=!1;a.pending=[];return a}h._inheritsLoose(c,f);var g=c.prototype;g.push=function(a,d){this.pending.push({promise:a,callback:d});1===this.pending.length&&this.process()};g.process=function(){if(this.pending.length){this.updating=
+!0;var a=this.pending[0];a.promise.then(d=>a.callback(d)).catch(()=>{}).then(()=>{this.pending.shift();this.process()})}else this.updating=!1};return c}(m);e.__decorate([k.property()],b.AsyncSequence.prototype,"updating",void 0);b.AsyncSequence=e.__decorate([l.subclass("esri.core.AsyncSequence")],b.AsyncSequence);Object.defineProperty(b,"__esModule",{value:!0})});

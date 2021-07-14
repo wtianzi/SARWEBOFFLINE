@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("exports ../../../../chunks/_rollupPluginBabelHelpers ../../../../chunks/tslib.es6 ../../../../core/has ../../../../core/Logger ../../../../core/accessorSupport/ensureType ../../../../core/accessorSupport/decorators/property ../../../../core/jsonMap ../../../../core/accessorSupport/decorators/subclass ../../../../core/urlUtils ../../../../core/uuid ../../../../portal/support/resourceExtension ../../../../core/Accessor".split(" "),function(a,f,c,l,m,n,g,p,h,q,r,t,k){a.Slice=function(d){function b(){var e=
+d.apply(this,arguments)||this;e.plane=null;return e}f._inheritsLoose(b,d);b.prototype.destroy=function(){};return b}(k);c.__decorate([g.property()],a.Slice.prototype,"plane",void 0);a.Slice=c.__decorate([h.subclass("esri.views.3d.interactive.graphics.AreaMeasurement3D")],a.Slice);Object.defineProperty(a,"__esModule",{value:!0})});

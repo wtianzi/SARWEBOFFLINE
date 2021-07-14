@@ -1,0 +1,5 @@
+/*
+All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+*/
+import{_ as e}from"./tslib.es6.js";import"../core/lang.js";import"./Logger.js";import{property as r}from"../core/accessorSupport/decorators/property.js";import"./ensureType.js";import{subclass as t}from"../core/accessorSupport/decorators/subclass.js";import"../core/urlUtils.js";import"./resourceExtension.js";import{HandleOwner as o}from"../core/HandleOwner.js";let s=class extends o{initialize(){}destroy(){}get supportsTileUpdates(){return!1}get spatialReference(){const e=this.get("tileStore.tileScheme.spatialReference");return e&&e.toJSON()||null}};e([r({readOnly:!0})],s.prototype,"supportsTileUpdates",null),e([r({constructOnly:!0})],s.prototype,"remoteClient",void 0),e([r({constructOnly:!0})],s.prototype,"service",void 0),e([r()],s.prototype,"spatialReference",null),e([r({constructOnly:!0})],s.prototype,"tileInfo",void 0),e([r({constructOnly:!0})],s.prototype,"tileStore",void 0),s=e([t("esri.views.2d.layers.features.processors.BaseProcessor")],s);var p=s;export{p as B};

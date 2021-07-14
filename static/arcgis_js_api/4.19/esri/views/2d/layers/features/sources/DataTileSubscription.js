@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["exports","../../../../../chunks/_rollupPluginBabelHelpers","../../../../../core/CircularArray","../support/UpdateToken"],function(e,f,g,h){let k=function(){function d(a){this.requests={done:[],stream:new g(10)};this._abortController=new AbortController;this.didSend=!1;this.tile=a}var b=d.prototype;b.sentEnd=function(){return this.requests.done.some(a=>a.message.end)};b.clear=function(){this.requests.done=[]};b.applyUpdate=function(a){this.requests.done.forEach(c=>c.message.status.unset(a))};
+b.invalidate=function(a){switch(a){case "fields":"none"===this._invalid&&(this._invalid="fields");break;case "all":this._invalid="all"}};b.done=function(){this._invalid="none"};b.add=function(a){var c;a.message.status=null!=(c=a.message.status)?c:h.UpdateToken.empty();this.requests.done.push(a);a.message.end&&(this.resolved=!0)};b.abort=function(){this._abortController.abort()};f._createClass(d,[{key:"invalid",get:function(){return this._invalid}},{key:"signal",get:function(){return this._abortController.signal}},
+{key:"options",get:function(){return{signal:this._abortController.signal}}}]);return d}();e.DataTileSubscription=k;Object.defineProperty(e,"__esModule",{value:!0})});

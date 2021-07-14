@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../../chunks/_rollupPluginBabelHelpers ../../chunks/tslib.es6 ../../core/has ../../core/Logger ../../core/accessorSupport/ensureType ../../core/accessorSupport/decorators/property ../../core/jsonMap ../../core/accessorSupport/decorators/subclass ../../core/urlUtils ../../core/uuid ../../portal/support/resourceExtension ../../core/JSONSupport".split(" "),function(g,c,a,l,m,d,n,h,p,q,r,k){a=function(e){function f(b){b=e.call(this,b)||this;b.isCollection=null;b.magicKey=null;b.text=null;return b}
+g._inheritsLoose(f,e);return f}(k.JSONSupport);c.__decorate([d.property({type:Boolean,json:{write:!0}})],a.prototype,"isCollection",void 0);c.__decorate([d.property({type:String,json:{write:!0}})],a.prototype,"magicKey",void 0);c.__decorate([d.property({type:String,json:{write:!0}})],a.prototype,"text",void 0);return a=c.__decorate([h.subclass("esri.tasks.support.SuggestionCandidate")],a)});

@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["exports","../../../../../chunks/_rollupPluginBabelHelpers","../../../../../core/has","../../../../../core/promiseUtils","./BaseFeatureSource"],function(l,u,d,m,e){var v=(d=d("esri-mobile"))?1:4,w=d?1:3;e=function(n){function f(a){return n.call(this,a)||this}u._inheritsLoose(f,n);f.prototype._fetchDataTile=async function(a){const x=this._serviceInfo.capabilities.query.supportsMaxRecordCountFactor,p=this._subscriptions.get(a.key.id),q=p.signal,y=a.getQuantizationParameters();let g=0;const k=
+async(h,c)=>{const z=this._queryInfo,r=this._createQuery(h,{maxRecordCountFactor:x?w:void 0,returnExceededLimitFeatures:!1,quantizationParameters:y});g++;try{const b=await this._queue.push({tile:a,query:r,signal:q,depth:c});g--;m.throwIfAborted(q);if(b)if(z!==this._queryInfo)k(h,c);else if(b.exceededTransferLimit&&c<v)for(const A of h.createChildTiles())k(A,c+1);else{var t={id:a.id,addOrUpdate:b,end:0===g,type:"append"};p.add({query:r,message:t});this._onMessage(t)}}catch(b){m.isAbortError(b)||this._onMessage({id:a.id,
+addOrUpdate:null,end:!0,type:"append"})}};k(a,0)};return f}(e.BaseFeatureSource);l.DrillDownFeatureSource=e;Object.defineProperty(l,"__esModule",{value:!0})});

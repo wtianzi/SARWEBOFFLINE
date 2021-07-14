@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("exports ./query/executeAttachmentQuery ./query/executeForCount ./query/executeForExtent ./query/executeForIds ./query/executeQueryJSON ./query/executeQueryPBF ./query/executeRelationshipQuery".split(" "),function(a,e,f,g,h,b,c,d){a.executeAttachmentQuery=e.executeAttachmentQuery;a.executeForCount=f.executeForCount;a.executeForExtent=g.executeForExtent;a.executeForIds=h.executeForIds;a.executeQueryJSON=b.executeQueryJSON;a.executeRawQueryJSON=b.executeRawQueryJSON;a.executeQueryPBF=c.executeQueryPBF;
+a.executeRawQueryPBF=c.executeRawQueryPBF;a.executeRelationshipQuery=d.executeRelationshipQuery;a.executeRelationshipQueryForCount=d.executeRelationshipQueryForCount;Object.defineProperty(a,"__esModule",{value:!0})});

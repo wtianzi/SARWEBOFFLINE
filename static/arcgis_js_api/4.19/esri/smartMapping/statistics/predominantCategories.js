@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["../../core/maybe","../../core/Error","./support/utils","../support/adapters/support/layerUtils"],function(g,e,h,f){async function k(a){if(!(a&&a.layer&&a.view&&a.fields))throw new e("predominant-categories:missing-parameters","'layer', 'view' and 'fields' parameters are required");var b=[0,2,1,3,4];const {layer:d,...l}=a,c=f.createLayerAdapter(d,b);a={layerAdapter:c,...l};if(!c)throw new e("predominant-categories:invalid-parameters","'layer' must be one of these types: "+f.getLayerTypeLabels(b).join(", "));
+b=g.isSome(a.signal)?{signal:a.signal}:null;await Promise.all([a.view.when(),c.load(b)]);if(b=h.verifyBasicFieldValidity(c,a.fields,"predominant-categories:invalid-parameters"))throw b;return a}return async function(a){const {layerAdapter:b,...d}=await k(a);return b.predominantCategories(d)}});

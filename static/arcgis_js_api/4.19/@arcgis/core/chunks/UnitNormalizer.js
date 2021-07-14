@@ -1,0 +1,5 @@
+/*
+All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+*/
+import{y as e,z as t,c as s,A as i,a as r}from"./unitUtils.js";class a{constructor(t,s){this.measure=e(s),this.value=t,this.unit=s}get isBaseUnit(){return t(this.unit)}toUnit(e){return new a(s(this.value,this.unit,e),e)}toBaseUnit(){return this.toUnit(i(this.unit))}}class n{constructor(e=null){this.spatialReference=e}get spatialReference(){return this._spatialReference}set spatialReference(e){e!==this._spatialReference&&(this._spatialReference=e,this._updateNormalizationFactors())}normalizeDistance(e){return e*this._metersPerDistanceUnit}normalizeElevation(e){return e*this._metersPerElevationUnit}normalizeArea(e){return e*this._squareMetersPerAreaUnit}_updateNormalizationFactors(){this._metersPerDistanceUnit=r(this._spatialReference,1),this._metersPerElevationUnit=r(this._spatialReference,1),this._squareMetersPerAreaUnit=this._metersPerDistanceUnit*this._metersPerDistanceUnit}}export{a as Q,n as U};

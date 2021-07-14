@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("exports ../../../chunks/vector ../../../chunks/axisAngle ../../../chunks/lineSegment ../../../chunks/ray ../../../chunks/sphere ../../../chunks/plane ../../../chunks/boundedPlane ../../../chunks/clipRay ../../../chunks/frustum ../../../chunks/triangle".split(" "),function(a,b,m,c,d,e,f,g,h,k,l){f=f.planeModule;g=g.boundedPlaneModule;l=l.triangleModule;c=c.lineSegmentModule;d=d.rayModule;h=h.clipRayModule;e=e.sphereModule;k=k.frustumModule;b=b.vectorModule;a.axisAngle=m.axisAngleModule;a.boundedPlane=
+g;a.clipRay=h;a.frustum=k;a.lineSegment=c;a.plane=f;a.ray=d;a.sphere=e;a.triangle=l;a.vector=b;Object.defineProperty(a,"__esModule",{value:!0})});

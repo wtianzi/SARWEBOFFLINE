@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../chunks/_rollupPluginBabelHelpers ../chunks/tslib.es6 ../core/has ../core/Logger ../core/accessorSupport/ensureType ../core/accessorSupport/decorators/property ../core/jsonMap ../core/accessorSupport/decorators/subclass ../core/urlUtils ../core/uuid ../portal/support/resourceExtension ./Task ../rest/serviceArea ./mixins/NAServiceDescription".split(" "),function(f,d,b,p,q,g,r,h,t,u,v,k,l,m){b=function(e){function c(a){a=e.call(this,a)||this;a.url=null;return a}f._inheritsLoose(c,e);c.prototype.solve=
+function(a,n){return l.solve(this.url,a,n)};return c}(m.NAServiceDescriptionMixin(k));d.__decorate([g.property()],b.prototype,"url",void 0);return b=d.__decorate([h.subclass("esri.tasks.ServiceAreaTask")],b)});

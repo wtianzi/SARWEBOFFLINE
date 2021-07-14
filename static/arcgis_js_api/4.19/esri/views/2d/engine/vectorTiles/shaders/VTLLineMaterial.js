@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["exports","../../../../../chunks/_rollupPluginBabelHelpers","./VTLMaterial"],function(d,f,a){a=function(e){function b(g){return e.call(this,g)||this}f._inheritsLoose(b,e);var c=b.prototype;c.geometryInfo=function(){return b.GEOMETRY_LAYOUT};c.opacityInfo=function(){return null};c.attributes=function(){return b.ATTRIBUTES};c.attributesInfo=function(){return b.ATTRIBUTES_INFO};return b}(a.VTLMaterial);a.ATTRIBUTES="line-blur line-color line-gap-width line-offset line-opacity line-width".split(" ");
+a.GEOMETRY_LAYOUT=[{name:"a_pos",count:2,type:5122,offset:0,stride:12,normalized:!1,divisor:0},{name:"a_offsetAndNormal",count:4,type:5120,offset:4,stride:12,normalized:!1,divisor:0},{name:"a_accumulatedDistance",count:2,type:5123,offset:8,stride:12,normalized:!1,divisor:0}];a.ATTRIBUTES_INFO={"line-width":{name:"width",type:0,precisionFactor:2},"line-gap-width":{name:"gap_width",type:0,precisionFactor:2},"line-offset":{name:"offset",type:1,precisionFactor:2},"line-color":{name:"color",type:2},"line-opacity":{name:"opacity",
+type:0,precisionFactor:100},"line-blur":{name:"blur",type:0,precisionFactor:4}};d.VTLLineMaterial=a;Object.defineProperty(d,"__esModule",{value:!0})});

@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../chunks/_rollupPluginBabelHelpers ../chunks/tslib.es6 ../core/has ../core/Logger ../core/accessorSupport/ensureType ../core/accessorSupport/decorators/property ../core/jsonMap ../core/accessorSupport/decorators/subclass ../core/urlUtils ../core/uuid ../portal/support/resourceExtension ./Task ../rest/route ./mixins/NAServiceDescription".split(" "),function(e,f,a,n,p,q,r,g,t,u,v,h,k,l){a=function(d){function b(c){return d.call(this,c)||this}e._inheritsLoose(b,d);b.prototype.solve=function(c,
+m){return k.solve(this.url,c,m)};return b}(l.NAServiceDescriptionMixin(h));return a=f.__decorate([g.subclass("esri.tasks.RouteTask")],a)});

@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../chunks/_rollupPluginBabelHelpers ../chunks/tslib.es6 ../core/has ../core/lang ../core/Logger ../core/accessorSupport/ensureType ../core/accessorSupport/decorators/property ../core/jsonMap ../core/accessorSupport/decorators/subclass ../core/urlUtils ../core/uuid ../portal/support/resourceExtension ../core/JSONSupport ./widgets/FloorFilter ./widgets/Range ./widgets/TimeSlider".split(" "),function(h,c,a,k,r,t,d,u,l,v,w,x,m,n,p,q){var e;a=e=function(g){function f(b){b=g.call(this,b)||this;
+b.range=null;b.timeSlider=null;b.floorFilter=null;return b}h._inheritsLoose(f,g);f.prototype.clone=function(){return new e(k.clone({range:this.range,timeSlider:this.timeSlider,floorFilter:this.floorFilter}))};return f}(m.JSONSupport);c.__decorate([d.property({type:p,json:{write:!0}})],a.prototype,"range",void 0);c.__decorate([d.property({type:q,json:{write:!0}})],a.prototype,"timeSlider",void 0);c.__decorate([d.property({type:n,json:{write:!0}})],a.prototype,"floorFilter",void 0);return a=e=c.__decorate([l.subclass("esri.webdoc.Widgets")],
+a)});

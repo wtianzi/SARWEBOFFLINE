@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("exports ./config ./core/Logger ./core/Error ./core/urlUtils ./request".split(" "),function(a,c,e,f,g,h){function d(b){if(!c.assetsPath)throw k.errorOnce("The API assets location needs to be set using config.assetsPath. More information: https://arcg.is/1OzLe50"),new f("assets:path-not-set","config.assetsPath is not set");return g.join(c.assetsPath,b)}const k=e.getLogger("esri.assets");a.fetchAsset=function(b,l){return h(d(b),l)};a.getAssetUrl=d;Object.defineProperty(a,"__esModule",{value:!0})});

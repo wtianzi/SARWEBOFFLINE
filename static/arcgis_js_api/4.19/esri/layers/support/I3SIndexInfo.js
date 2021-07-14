@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["exports","../../core/maybe","../../core/Error","../../request"],function(f,g,n,h){f.fetchIndexInfo=async function(c,a,b,k,l){var d=null;if(g.isSome(b)){d=`${c}/nodepages/`;const e=d+Math.floor(b.rootIndex/b.nodesPerPage);try{return{type:"page",rootPage:(await h(e,{query:{f:"json"},responseType:"json",signal:l})).data,rootIndex:b.rootIndex,pageSize:b.nodesPerPage,lodMetric:b.lodSelectionMetricType,urlPrefix:d}}catch(m){g.isSome(k)&&k.warn("#fetchIndexInfo()","Failed to load root node page. Falling back to node documents.",
+e,m),d=m}}if(!a)return null;a=a&&a.split("/").pop();c=`${c}/nodes/`;a=c+a;try{return{type:"node",rootNode:(await h(a,{query:{f:"json"},responseType:"json",signal:l})).data,urlPrefix:c}}catch(e){throw new n("sceneservice:root-node-missing","Root node missing.",{pageError:d,nodeError:e,url:a});}};Object.defineProperty(f,"__esModule",{value:!0})});

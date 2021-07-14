@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["exports","../../../core/maybe","../../../core/Error","../../../renderers/support/rasterRendererHelper","../support/utils"],function(g,h,e,f,k){async function l(a){var c;a=await k.processRasterRendererParameters(a);const {rasterInfo:b}=a.layer;if(1<b.bandCount)throw new e("raster-class-breaks-renderer:not-supported","Multiband raster is not supported");if(null===b.attributeTable&&!f.isSingleBand8BitRasterWithStats(b))throw new e("raster-unique-value-renderer:not-supported","The source raster does not have an attribute table");
+const d=null==(c=a.classFieldName)?void 0:c.toLowerCase();if(d&&!b.attributeTable.fields.some(m=>m.name.toLowerCase()===d))throw new e("raster-unique-value-renderer:invalid-parameters","A valid 'classfieldName' is required");d||(a.classFieldName=f.getClassField(b.attributeTable).name);return a}g.createRenderer=async function(a){a=await l(a);const {classFieldName:c,colors:b,colorRamp:d}=a;a=f.createUVRenderer(a.layer.rasterInfo,c,b,d);if(!h.isSome(a))throw new e("raster-unique-value-renderer:not-supported",
+"UniqueValueRenderer is not supported on the provided data source");return{renderer:a,classFieldName:c}};Object.defineProperty(g,"__esModule",{value:!0})});

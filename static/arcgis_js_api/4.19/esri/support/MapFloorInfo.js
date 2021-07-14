@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../chunks/_rollupPluginBabelHelpers ../chunks/tslib.es6 ../core/has ../core/Logger ../core/accessorSupport/ensureType ../core/accessorSupport/decorators/property ../core/jsonMap ../core/accessorSupport/decorators/subclass ../core/urlUtils ../core/uuid ../portal/support/resourceExtension ../core/JSONSupport ../layers/support/FacilityLayerInfo ../layers/support/LevelLayerInfo ../layers/support/SiteLayerInfo".split(" "),function(g,c,a,p,q,d,r,h,t,u,v,k,l,m,n){a=function(e){function f(b){b=e.call(this,
+b)||this;b.levelLayer=null;b.facilityLayer=null;b.siteLayer=null;return b}g._inheritsLoose(f,e);return f}(k.JSONSupport);c.__decorate([d.property({type:m,json:{write:!0,origins:{"web-scene":{write:!1}}}})],a.prototype,"levelLayer",void 0);c.__decorate([d.property({type:l,json:{write:!0,origins:{"web-scene":{write:!1}}}})],a.prototype,"facilityLayer",void 0);c.__decorate([d.property({type:n,json:{write:!0,origins:{"web-scene":{write:!1}}}})],a.prototype,"siteLayer",void 0);return a=c.__decorate([h.subclass("esri.support.MapFloorInfo")],
+a)});

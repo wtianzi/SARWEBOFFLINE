@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>4.19</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css"/>
+    <script src="https://js.arcgis.com/4.19/"></script>
+
+    <script>
+      require(["esri/Map","esri/layers/WebTileLayer", "esri/views/MapView"], function(Map,WebTileLayer, MapView) {
+        var map = new Map({
+          //basemap: "gray"
+        });
+
+        var view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 16,
+          center: [-80.418151, 37.226566] // longitude, latitude -80.4757389347337, 37.2040570285143
+        });
+
+        //http://localhost:5000/tiles/16/18095/25458
+        var topotiledLayer = new WebTileLayer({
+          urlTemplate:
+            "http://127.0.0.1:8000/static/maptile/topo/{level}/{col}/{row}.png",
+          copyright:
+            'osm data'
+        });
+
+        var contourtiledLayer = new WebTileLayer({
+          urlTemplate:
+            "http://127.0.0.1:8000/static/maptile/contour/{level}/{col}/{row}.png",
+          copyright:
+            'osm data'
+        });        
+        map.add(topotiledLayer);
+        map.add(contourtiledLayer);
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

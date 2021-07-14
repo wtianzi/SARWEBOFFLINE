@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["exports","../../../../chunks/_rollupPluginBabelHelpers","../../../../core/maybe","../../../../core/promiseUtils"],function(d,f,a,g){let l=function(){function c(b,h,k){this.analysis=b;this.viewFactory=h;this.controllerFactory=k;this._promise=g.createDeferred();this.analysisController=this.analysisView=null;this._load()}var e=c.prototype;e.destroy=function(){a.isSome(this.analysisView)&&this.analysisView.destroy();a.isSome(this.analysisController)&&this.analysisController.destroy()};e._load=
+async function(){let b=!1;a.isSome(this.viewFactory)?this.analysisView=await this.viewFactory(this.analysis):b=!0;a.isSome(this.controllerFactory)?this.analysisController=await this.controllerFactory(this.analysis):b=!0;b?this._promise.reject("no view/controller factories available for analysis"):this._promise.resolve(a.unwrap(this.analysisView))};f._createClass(c,[{key:"promise",get:function(){return this._promise.promise}}]);return c}();d.AnalysisManagerItem=l;Object.defineProperty(d,"__esModule",
+{value:!0})});

@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../../../chunks/_rollupPluginBabelHelpers ../../../chunks/tslib.es6 ../../../core/has ../../../core/Logger ../../../core/accessorSupport/ensureType ../../../core/accessorSupport/decorators/property ../../../core/accessorSupport/decorators/enumeration ../../../core/accessorSupport/decorators/subclass ../../../core/urlUtils ../../../core/uuid ../../../portal/support/resourceExtension ../../../core/JSONSupport".split(" "),function(g,c,b,n,p,h,k,l,q,r,t,m){b=function(e){function d(){var a=e.apply(this,
+arguments)||this;a.type="identity";return a}g._inheritsLoose(d,e);var f=d.prototype;f.forwardTransform=function(a){return a};f.inverseTransform=function(a){return a};return d}(m.JSONSupport);c.__decorate([h.property({json:{write:!0}})],b.prototype,"spatialReference",void 0);c.__decorate([k.enumeration({IdentityXform:"identity"})],b.prototype,"type",void 0);return b=c.__decorate([l.subclass("esri.layers.support.rasterTransforms.IdentityTransform")],b)});

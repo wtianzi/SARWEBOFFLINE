@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../core/maybe","../../assets"],function(e,d,f,g){let c;d.getBasisTranscoder=function(){if(f.isNone(c)){const h=a=>g.getAssetUrl(`esri/libs/basisu/${a}`);c=(new Promise(function(a,b){e(["../../chunks/basis_transcoder"],a,b)})).then(function(a){return a.basis_transcoder}).then(({default:a})=>a({locateFile:h}).then(b=>{b.initializeBasis();delete b.then;return b}))}return c};Object.defineProperty(d,"__esModule",{value:!0})});

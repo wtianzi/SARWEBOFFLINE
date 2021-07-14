@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../../../chunks/_rollupPluginBabelHelpers ../../../chunks/tslib.es6 ../../../core/has ../../../core/maybe ../../../core/Logger ../../../core/accessorSupport/ensureType ../../../core/accessorSupport/decorators/property ../../../core/jsonMap ../../../core/accessorSupport/decorators/subclass ../../../core/urlUtils ../../../core/uuid ../../../portal/support/resourceExtension ../SmartMappingPrimaryHandleSliderViewModel".split(" "),function(k,l,f,m,t,u,p,v,q,w,x,y,r){f=function(n){function g(a){return n.call(this,
+a)||this}k._inheritsLoose(g,n);g.prototype.getStopInfo=function(){const {min:a,max:b,stops:c}=this;return c&&c.length?c.map(d=>({color:d.color,offset:(b-d.value)/(b-a)})):[]};k._createClass(g,[{key:"stops",set:function(a){if(a&&a.length){const b=a.map(e=>e.value),{max:c,min:d}=this,h={};m.isSome(d)&&b.some(e=>e<d)&&(h.min=Math.min(...b));m.isSome(c)&&b.some(e=>e>c)&&(h.max=Math.max(...b));this.set({...h})}this._set("stops",a)}}]);return g}(r);l.__decorate([p.property()],f.prototype,"stops",null);
+return f=l.__decorate([q.subclass("esri.widgets.smartMapping.ColorSlider.ColorSliderViewModel")],f)});

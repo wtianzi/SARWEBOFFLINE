@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(g,c){async function d(a){if(!(a in e))switch(a){case "DirectLineMeasurement3D":e[a]=Promise.all([new Promise(function(b,f){g(["./DirectLineMeasurement3D/DirectLineMeasurement3DView"],b,f)}),new Promise(function(b,f){g(["./DirectLineMeasurement3D/DirectLineMeasurement3DController"],b,f)})]).then(b=>({viewConstructor:b[0].DirectLineMeasurement3DView,controllerConstructor:b[1].DirectLineMeasurement3DController}))}return e[a]}const e={};c.analysisControllerFactory=
+async function(a,b){return"3d"===a.type?new ((await d(b.type)).controllerConstructor)({view:a,dataObject:b}):null};c.analysisViewFactory=async function(a,b){return"3d"===a.type?new ((await d(b.type)).viewConstructor)({view:a,dataObject:b}):null};c.preloadAnalysisModules=async function(a){await d(a)};Object.defineProperty(c,"__esModule",{value:!0})});

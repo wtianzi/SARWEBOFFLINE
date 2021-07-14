@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("../../../chunks/_rollupPluginBabelHelpers ../../../chunks/tslib.es6 ../../../core/has ../../../core/Logger ../../../core/accessorSupport/ensureType ../../../core/accessorSupport/decorators/property ../../../core/jsonMap ../../../core/accessorSupport/decorators/subclass ../../../core/urlUtils ../../../core/uuid ../../../portal/support/resourceExtension ../../../layers/support/fieldUtils ./SceneLayerAdapter".split(" "),function(f,g,c,m,n,p,q,h,r,t,u,k,l){c=function(e){function d(a){return e.call(this,
+a)||this}f._inheritsLoose(d,e);var b=d.prototype;b.getField=function(a=""){return k.getField(this.layer.fields,a)};b.getFieldUsageInfo=function(a){a=this.getField(a);if(!a)return null;a=this._hasCachedStatistics(a.name);return{supportsLabelingInfo:a,supportsPopupTemplate:a,supportsRenderer:a,supportsLayerQuery:!1,supportsStatistics:a}};b.getFieldDomain=function(){return null};b.load=function(a){a=this.layer.load(a).then(()=>{this.geometryType="point";this.objectIdField=null;this.hasQueryEngine=this.supportsSQLExpression=
+!1});this.addResolvingPromise(a);return Promise.resolve(this)};return d}(l);return c=g.__decorate([h.subclass("esri.smartMapping.support.adapters.PointCloudLayerAdapter")],c)});

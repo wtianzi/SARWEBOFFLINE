@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define("exports ../../../core/maybe ../../../geometry/Point ../../../geometry ../../../symbols/IconSymbol3DLayer ../../../symbols/TextSymbol3DLayer ../../../symbols/PointSymbol3D ../../../symbols ../../../Graphic".split(" "),function(c,d,h,e,k,l,m,q,n){e=function(){function f(a,b,p=""){this.graphics=a;this._symbol=new m({symbolLayers:[new k({material:{color:b},outline:{color:[255,255,255],size:1},resource:{primitive:"circle"}}),new l({text:p,halo:{color:"white",size:1/.75},material:{color:b},size:12})]})}
+var g=f.prototype;g.showPoint=function(a,b){d.isNone(b)||(this.remove(),a=new h({x:a[0],y:a[1],z:a[2],spatialReference:b}),this._graphic=new n({geometry:a,symbol:this._symbol}),this.graphics.add(this._graphic))};g.remove=function(){d.isSome(this._graphic)&&(this.graphics.remove(this._graphic),this._graphic=null)};return f}();c.GraphicsHandle=e;Object.defineProperty(c,"__esModule",{value:!0})});

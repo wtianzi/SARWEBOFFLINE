@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.19/esri/copyright.txt for details.
+//>>built
+define(["../../chunks/_rollupPluginBabelHelpers","../../core/promiseUtils"],function(k,g){let h=function(d,c,b,a){this.resolve=d;this.reject=c;this.callback=b;this.signal=a};return function(){function d(){this._tasks=[]}var c=d.prototype;c.push=function(b,a){return new Promise((e,f)=>this._tasks.push(new h(e,f,b,a)))};c.unshift=function(b,a){return new Promise((e,f)=>this._tasks.unshift(new h(e,f,b,a)))};c.process=function(){if(0===this._tasks.length)return!1;const b=this._tasks.shift();try{g.throwIfAborted(b.signal);
+const a=b.callback();a&&"object"===typeof a&&"then"in a&&"function"===typeof a.then?a.then(b.resolve,b.reject):b.resolve(a)}catch(a){b.reject(a)}return!0};c.cancelAll=function(){const b=g.createAbortError();for(const a of this._tasks)a.reject(b);this._tasks.length=0};k._createClass(d,[{key:"length",get:function(){return this._tasks.length}}]);return d}()});
