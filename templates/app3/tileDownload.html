@@ -26,13 +26,13 @@
       <div>
         <div>
           <label for="txtin_tlat">Top latitude (N.ymax):</label>
-          <input type="number" id="txtin_tlat" name="txtin_tlat" value="37.3" step="0.1"><br>
+          <input type="number" id="txtin_tlat" name="txtin_tlat" value="37.240263" step="0.1"><br>
           <label for="txtin_blat">Buttom latitude (N.ymin):</label>
-          <input type="number" id="txtin_blat" name="txtin_blat" value="37.1" step="0.1"><br>
+          <input type="number" id="txtin_blat" name="txtin_blat" value="37.212441" step="0.1"><br>
           <label for="txtin_llong">Left Longitude (W.xmax):</label>
-          <input type="number" id="txtin_llong" name="txtin_llong" value="-81.2" step="0.1"><br>
+          <input type="number" id="txtin_llong" name="txtin_llong" value="-80.451436" step="0.1"><br>
           <label for="txtin_rlong">Right Longitude (W.xmin):</label>
-          <input type="number" id="txtin_rlong" name="txtin_rlong" value="-81" step="0.1"><br>
+          <input type="number" id="txtin_rlong" name="txtin_rlong" value="-80.411743" step="0.1"><br>
         </div>
         <br>
         <div>
@@ -63,8 +63,8 @@
           <option value="usatopo">USA Topo</option>
           <option value="arcgisgray">Arc GIS Gray</option>
           <option value="openstreetmap">Openstreet</option>
-          <option value="World_Transportation" selected>World_Transportation</option>
-          <option value="World_Topo_Map" >World_Topo_Map</option>
+          <option value="World_Transportation" >World_Transportation</option>
+          <option value="World_Topo_Map" selected>World_Topo_Map</option>
           <option value="World_Terrain_Base">World_Terrain_Base</option>
           <option value="openstreetmap_de">openstreetmap_de</option>
           <option value="contour">Contour (pending)</option>
@@ -101,7 +101,8 @@
       var urlobj={
         "arcgisgray":"https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/0/0/0.png",
         "contour":"https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer/export?bbox=-80.580552%2C37.190493%2C-80.562082%2C37.171017&f=image&format=png&transparent=false&imageSR=4326&bboxSR=4326",
-        "usatopo": "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/14/6362/4528.png"
+        "usatopo": "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/14/6362/4528.png",
+        "somemap": "https://stamen-tiles-a.a.ssl.fastly.net/terrain/14/6362/4528.png"
       };
 
       var url_obj={
@@ -212,6 +213,7 @@
       }
 
       function preCalculate(){
+        ndownload=0;
         tile_arr=[];
         let latT=$("#txtin_tlat").val();
         let longL=$("#txtin_llong").val();
@@ -224,6 +226,16 @@
 
         ntotaltiles=0;
         let res_out="Estimated numbers: \r\n";
+
+        let selmodel=0;
+        if($( "#mapservice" ).val()=="openstreetmap" || $( "#mapservice" ).val()=="openstreetmap_de"){
+          selmodel=1;
+        }
+        else{
+          selmodel=0;
+        }
+
+
         for(let i=zoommin;i<=zoommax;++i){
           //{"arr_url":resarr,"arr_name":resarrname};
           //latT, longL, latB, longR
@@ -231,7 +243,7 @@
           //
 
           //let arr_list=ListLatLong_ESRI(37.3, -81.2, 37.1, -81, i);
-          let tlen=ListLatLong_ESRI(parseFloat(latT), parseFloat(longL), parseFloat(latB), parseFloat(longR), i);
+          let tlen=ListLatLong_ESRI(parseFloat(latT), parseFloat(longL), parseFloat(latB), parseFloat(longR), i,selmodel);
           ntotaltiles=ntotaltiles+tlen;
 
           //arr_url,arr_name
@@ -276,8 +288,8 @@
         return [lon_deg,lat_deg];
       }
 
-      function ListLatLong_ESRI(latT, longL, latB, longR, zoom){
-
+      function ListLatLong_ESRI(latT, longL, latB, longR, zoom, model=0){
+        //model 1: openstreet
             let pTL = WorldToTilePos(longL, latT, zoom);
             let pTR = WorldToTilePos(longR, latT, zoom);
             let pBL = WorldToTilePos(longL, latB, zoom);
@@ -292,14 +304,21 @@
             console.log(totalTiles);
             // https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/14/6362/4528.png
             //let url1=url;//"https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/";//best
+
             let urlmid;
-            for (let x = minx; x < maxx; x++){
-              for (let y = miny; y < maxy; y++){
+            for (let x = minx; x <= maxx; x++){
+              for (let y = miny; y <= maxy; y++){
                 //https://carto.nationalmap.gov/arcgis/sdk/rest/index.html#/Export_Image/02ss00000075000000/
                 //bbox Syntax: <xmin>, <ymax>, <xmax>, <ymin>
                 //Example: bbox=-104,35.6,-94.32,41
                 //x,y,z to lat
-                urlmid=zoom.toString()+"/"+y.toString()+"/"+x.toString();
+                if(model==0){
+                  urlmid=zoom.toString()+"/"+y.toString()+"/"+x.toString();
+                }
+                else{
+                  urlmid=zoom.toString()+"/"+x.toString()+"/"+y.toString();
+                }
+
                 tile_arr.push(urlmid);
               }
             }

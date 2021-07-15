@@ -121,7 +121,7 @@
       "esri/geometry/Polygon",
       "esri/geometry/geometryEngine",
       "esri/widgets/Expand",
-        "esri/layers/TileLayer",
+      "esri/layers/TileLayer",
       "esri/views/2d/draw/Draw",
       "esri/widgets/CoordinateConversion",
       "esri/widgets/DistanceMeasurement2D",
@@ -137,6 +137,8 @@
       "esri/geometry/Circle",
       "esri/layers/GeoJSONLayer",
       "esri/layers/WebTileLayer",
+      "esri/layers/GroupLayer",
+      "esri/widgets/LayerList",
       "esri/core/promiseUtils"
 
     ], function(
@@ -145,11 +147,11 @@
       Draw,CoordinateConversion,
       DistanceMeasurement2D,AreaMeasurement2D,Extent,Point,
       OpenStreetMapLayer,Track,Search,Multipoint,
-      ElevationLayer,Polyline,Circle,GeoJSONLayer,WebTileLayer,promiseUtils
+      ElevationLayer,Polyline,Circle,GeoJSONLayer,WebTileLayer,GroupLayer,LayerList,promiseUtils
     ) {
       let view, sketchViewModel, draw,
         newDevelopmentGraphic,taskassignment_sketchViewModel,
-        instructionsExpand,coordinateLayer;
+        instructionsExpand;
       let intersects = false,
         contains = true;
       let updated_polygonring=[];
@@ -162,7 +164,7 @@
       let width=1600*1.5;
       let height=900*1.5;
       let m_d=new Date();
-      let scale=12;//16;//15
+      let scale=14;//16;//15
       let m_experimentres={
         "scenario":null,
         "lostpersontype":null,
@@ -286,80 +288,125 @@
 
       let gpspt=[null,null];
 
-      const graphicInitLayer= new GraphicsLayer();
+      const graphicInitLayer= new GraphicsLayer({
+        title:"graphicInitLayer",
+        listMode:"hide"
+      });
       const graphicsLayer = new GraphicsLayer({
+        title:"graphicsLayer",
+        listMode:"hide",
         opacity:0.6//0.6
       });
-      const gpsgraphicsLayer = new GraphicsLayer();
-      const gpsgraphicsLayer2 = new GraphicsLayer();
+      const gpsgraphicsLayer = new GraphicsLayer({
+        title:"gpsgraphicsLayer",
+        listMode:"hide"
+      });
+      const gpsgraphicsLayer2 = new GraphicsLayer({
+        title:"gpsgraphicsLayer2",
+        listMode:"hide"
+      });
 
       const pathplanninggraphicsLayer = new GraphicsLayer({
+        listMode:"hide",
         opacity:0.5
       });
 
       const pathplanninggraphicsLayer2 = new GraphicsLayer({
+        listMode:"hide",
         opacity:0.5
       });
 
       const gpshistoricalgraphicsLayer = new GraphicsLayer({
+        listMode:"hide",
         opacity:0.5
       });
 
       const visualization_Contourmap_Layer = new GraphicsLayer({
+        listMode:"hide",
         opacity:0.8
       });
 
       const visualization_Segmentheat_Layer = new GraphicsLayer({
+        listMode:"hide",
         opacity:0.5
       });
 
 
       const visualization_Trajectories_Layer = new GraphicsLayer({
+        listMode:"hide",
         opacity:0.5
       });
 
       const visualization_Cone_Layer = new GraphicsLayer({
+        listMode:"hide",
         opacity:0.5
       });
 
       const teamgraphicsLayer=new GraphicsLayer({
+        listMode:"hide",
         opacity:1.0
       });
-      const graphicInteractionLayer =new GraphicsLayer();
+      const graphicInteractionLayer =new GraphicsLayer({
+        listMode:"hide"
+      });
 
-      const temperalgraphicLayer = new GraphicsLayer();
+      const temperalgraphicLayer = new GraphicsLayer({
+        listMode:"hide"
+      });
 
-      const topotiledLayer = new WebTileLayer({
+      const usatopo_tile_Layer = new WebTileLayer({
+        title:"USA Topo Maps",
         urlTemplate:
-          "http://127.0.0.1:8000/static/maptile/topo/{level}/{col}/{row}.png",
+          "http://127.0.0.1:8000/static/maptile/usatopo/{level}/{col}/{row}.png",
         copyright:
           "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile"
       });
 
-      const graytiledLayer = new WebTileLayer({
+      const arcgisgray_tile_Layer = new WebTileLayer({
+        title:"World Light Gray Base",
         urlTemplate:
-          "http://127.0.0.1:8000/static/maptile/gray/{level}/{col}/{row}.png",
+          "http://127.0.0.1:8000/static/maptile/arcgisgray/{level}/{col}/{row}.png",
         copyright:
-          "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile"
+          "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile"
       });
 
-      const tiledLayer_test = new WebTileLayer({
+      const World_Topo_Map_tile_Layer = new WebTileLayer({
+        title:"World Topo Map",
+        visible:false,
         urlTemplate:
-          "https://stamen-tiles-{subDomain}.a.ssl.fastly.net/terrain/{level}/{col}/{row}.png",
-        subDomains: ["a", "b", "c", "d"],
-        copyright:
-          'Map tiles by <a href="http://stamen.com/">Stamen Design</a>, ' +
-          'under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. ' +
-          'Data by <a href="http://openstreetmap.org/">OpenStreetMap</a>, ' +
-          'under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+          "http://127.0.0.1:8000/static/maptile/World_Topo_Map/{level}/{row}/{col}.png"
       });
+
+      const World_Transportation_tile_Layer = new WebTileLayer({
+        title:"World Transportation",
+        visible:false,
+        urlTemplate:
+          "http://127.0.0.1:8000/static/maptile/World_Transportation/{level}/{row}/{col}.png"
+      });
+
+      const openstreetmap_tile_Layer = new WebTileLayer({
+        title:"Openstreetmap",
+        urlTemplate:"http://127.0.0.1:8000/static/maptile/openstreetmap/{level}/{col}/{row}.png",
+        visible:false
+      });
+
+      const tilemapGroupLayer = new GroupLayer({
+          title: "Tile Maps",
+          visible: true,
+          visibilityMode: "independent",
+          layers: [usatopo_tile_Layer, World_Topo_Map_tile_Layer,World_Transportation_tile_Layer,openstreetmap_tile_Layer],
+          opacity: 0.75
+        });
+//[usatopo_tile_Layer,arcgisgray_tile_Layer, World_Topo_Map_tile_Layer,World_Transportation_tile_Layer,openstreetmap_tile_Layer],
 
       const map = new Map({
         //basemap: "hybrid",//"hybrid",//"satellite",
         //ground: "world-elevation",
         layers: [
-          graytiledLayer,
-          topotiledLayer,
+
+          arcgisgray_tile_Layer,
+          tilemapGroupLayer,
+          //arcgisgray_tile_Layer,
           visualization_Contourmap_Layer,//
           visualization_Segmentheat_Layer,
           graphicsLayer,//
@@ -374,10 +421,50 @@
           graphicInteractionLayer,//
           temperalgraphicLayer,// temperal layer include target
           visualization_Cone_Layer//
-
         ]
       });
 
+      function setUpView() {
+        view = new MapView({
+          container: "viewDiv",
+          zoom: scale,
+          center: m_scenarios[m_scenario_index].center,//[gcx,gcy],//,35.4
+          map: map,
+        });
+        m_experimentres["scenario"]=m_scenarios[m_scenario_index];
+        m_experimentres["lostpersontype"]=m_lostpersontype[m_lostpersontype_index];
+
+        //add track widget
+        let trackWidget = new Track({
+          view: view
+        });
+        view.ui.add(trackWidget, "top-left");
+        // Adds the search widget below other elements in
+        // the top left corner of the view
+        let searchWidget = new Search({
+          view: view
+        });
+        view.ui.add(searchWidget, {
+          position: "bottom-right",
+          index: 5
+        });
+        setupEditing();
+        //view.ui.add("draw-polygon", "top-left");
+        draw = new Draw({
+        view: view
+        });
+        //validSymbol = createSymbol([0, 170, 255, 0.4], "solid", 2, [255,255, 255]);//task generation
+        validSymbol = createSymbol([212,221,222, 0.2], "solid", 2, [255,255, 255]);//task generation
+
+        m_colorgroup = ColorGroupInitialize();
+        let ccWidget = new CoordinateConversion({
+          view: view
+          //container: "coordinatesdiv"
+        });
+        view.ui.add(ccWidget, "bottom-left");
+
+
+      }
       setUpView();
 
       // creates new view and map, adds featurelayers and graphicslayer to the view
@@ -469,9 +556,11 @@
         // Listen to sketchViewModel's update event to do
         // graphic reshape or move validation
         sketchViewModel.on(["update", "undo", "redo"], onGraphicUpdate);
+        var layerList = new LayerList({
+            view: view
+          });
+          view.ui.add(layerList, "bottom-left");
       });
-
-
       function addVoronoi(){
         let textend;
         let wholearea;
@@ -767,46 +856,7 @@
       }
 
       // Create new view, map and layers... set up the view
-      function setUpView() {
-        coordinateLayer=new FeatureLayer({
-          //wkid:4326
-          //spatialReference: { wkid: 4326  }
-          spatialReference: { wkid: 102100  }
-        });
-        view = new MapView({
-          container: "viewDiv",
-          map: map,
-          zoom: scale,
-          center: m_scenarios[m_scenario_index].center//[gcx,gcy],//,35.4
-        });
-        m_experimentres["scenario"]=m_scenarios[m_scenario_index];
-        m_experimentres["lostpersontype"]=m_lostpersontype[m_lostpersontype_index];
 
-        //add track widget
-        let trackWidget = new Track({
-          view: view
-        });
-        view.ui.add(trackWidget, "top-left");
-        // Adds the search widget below other elements in
-        // the top left corner of the view
-        let searchWidget = new Search({
-          view: view
-        });
-        view.ui.add(searchWidget, {
-          position: "bottom-right",
-          index: 5
-        });
-        setupEditing();
-        //view.ui.add("draw-polygon", "top-left");
-        draw = new Draw({
-        view: view
-        });
-        //validSymbol = createSymbol([0, 170, 255, 0.4], "solid", 2, [255,255, 255]);//task generation
-        validSymbol = createSymbol([212,221,222, 0.2], "solid", 2, [255,255, 255]);//task generation
-
-
-        m_colorgroup = ColorGroupInitialize();
-      }
 
       document.getElementById("btntaskassignment").onclick=function() {
         m_tasktrials=m_tasktrials+1;
@@ -1252,11 +1302,6 @@
         view.ui.add(editExpand, "top-right");
       }
 
-      let ccWidget = new CoordinateConversion({
-        view: view
-        //container: "coordinatesdiv"
-      });
-      view.ui.add(ccWidget, "bottom-left");
       //view.ui.add(ccWidget,document.getElementById("coordinatesdiv"));
 //-----------------adding new functions here---------------------
 

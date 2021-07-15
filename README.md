@@ -17,8 +17,9 @@ Entrance:(tileDownload.html) http://127.0.0.1:8000/tiledownload
 2. Copy all the files to server folder sarweboffline/static/maptile/org
 3. run supportedfiles/TileImagestoFolder.py
 4. put the files to layer folder
-5. modify layers in Taskgeneration.html
-6. enjoy:)
+5. modify layers in Taskgeneration.html: be aware that the {row}{col} are different among different services
+6. if adding new tile layers to the downloading, please aware the x and y is different among different tile servers
+7. test it and enjoy:)
 ![tiledownload](screen/tiledownload.png)
 Notes: the tileDownload.html code code run on any online html sandbox. All u need is to copy the code and run. Then use TileImagestoFolder.py to structure the images to layerfolders.
 

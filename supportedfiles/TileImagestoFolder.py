@@ -18,7 +18,8 @@ def PNG2MP4(folder="",outfolder=""):
                 os.makedirs(imgfolder)
             imgname=imgfolder+x[2]
             print(iname,os.path.abspath(imgname))
-            shutil.copy(folder+iname, imgname)
+            #copy
+            shutil.move(folder+iname, imgname)
     return
 def main():
     PNG2MP4("../static/maptile/org/","../static/maptile/")
