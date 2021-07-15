@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="Content-Type" content="text/html">
+      <meta name="author" content="Tianzi">
+      <title> Download Tiles </title>
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+      <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    </head>
+    <style>
+    html,
+    body,
+        div#editArea {
+          width: 100%;
+          height: 100%;
+          overflow: scroll;
+        }
+    </style>
+
+    <body>
+      <div>
+        <div>
+          <label for="txtin_tlat">Top latitude (N.ymax):</label>
+          <input type="number" id="txtin_tlat" name="txtin_tlat" value="37.3" step="0.1"><br>
+          <label for="txtin_blat">Buttom latitude (N.ymin):</label>
+          <input type="number" id="txtin_blat" name="txtin_blat" value="37.1" step="0.1"><br>
+          <label for="txtin_llong">Left Longitude (W.xmax):</label>
+          <input type="number" id="txtin_llong" name="txtin_llong" value="-81.2" step="0.1"><br>
+          <label for="txtin_rlong">Right Longitude (W.xmin):</label>
+          <input type="number" id="txtin_rlong" name="txtin_rlong" value="-81" step="0.1"><br>
+        </div>
+        <br>
+        <div>
+          <table>
+            <tr>
+              <td><label for="amount">Scale range:</label></td>
+              <td><input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;width:50px;"></td>
+              <td style="width:70%;"><div id="slider-range" ></div></td>
+            </tr>
+          </table>
+
+        </div>
+
+
+        <div>
+          <label for="packsizerange">Pack size (images downloaded once):</label>
+          <input type="number" id="packsizerange" value="10" step="5"><br>
+        </div>
+        <div>
+          <label for="gaprange">Download gap (s):</label>
+          <input type="number" id="gaprange" value="1000" step="500"><br>
+        </div>
+
+        <br>
+
+        <label for="mapservice">Choose a map service:</label>
+        <select id="mapservice">
+          <option value="usatopo">USA Topo</option>
+          <option value="arcgisgray">Arc GIS Gray</option>
+          <option value="openstreetmap">Openstreet</option>
+          <option value="World_Transportation" selected>World_Transportation</option>
+          <option value="World_Topo_Map" >World_Topo_Map</option>
+          <option value="World_Terrain_Base">World_Terrain_Base</option>
+          <option value="openstreetmap_de">openstreetmap_de</option>
+          <option value="contour">Contour (pending)</option>
+        </select>
+      </div>
+
+      <div>
+        <div>
+          <button id="btnPrecalculate" onclick="preCalculate()">Pre Calculation</button>
+          <label for="btnPrecalculate">Estimated tile numbers and download time: </label><br>
+          <textarea id="downloadestimation" style="width:60%;height:100px">Total images: 0; Estimated time: 0 s </textarea>
+        </div>
+        <br>
+        <div>
+          <label id="status">Download Status: Wait</label>
+          <button id="btnDownload" onclick="myFunction()">Download</button>
+          <button onclick="myStopFunction()">Stop</button>
+        </div>
+      </div>
+      <div id="editArea">
+
+      </div>
+
+    </body>
+    <script>
+      //<button id="btnDownload" onclick="myFunction()">Download</button>
+      //<button id="btnDownload">Download</button>
+      // sar topo maps(best): https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/export?bbox=-2.561908697762756E7,-2.3305104928035405E7,2.561908697762756E7,2.3305104928035382E7
+      var ncount=0;
+      var ndownload=0;
+      var ntotaltiles=0;
+      //url collection
+      //https://wiki.openstreetmap.org/wiki/Tile_servers
+      var urlobj={
+        "arcgisgray":"https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/0/0/0.png",
+        "contour":"https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer/export?bbox=-80.580552%2C37.190493%2C-80.562082%2C37.171017&f=image&format=png&transparent=false&imageSR=4326&bboxSR=4326",
+        "usatopo": "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/14/6362/4528.png"
+      };
+
+      var url_obj={
+        "arcgisgray":"https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/",
+        "contour":"https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer/export?bbox=-80.580552%2C37.190493%2C-80.562082%2C37.171017&f=image&format=png&transparent=false&imageSR=4326&bboxSR=4326",
+        "usatopo": "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/",
+        "openstreetmap":"https://a.tile.openstreetmap.org/",
+        "openstreetmap_de":"https://tile.openstreetmap.de/",
+        "World_Transportation":"https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer/tile/",
+        "World_Topo_Map":"https://server.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/tile/",
+        "World_Terrain_Base":"https://server.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer/tile/"
+      };
+
+      var tile_arr=[];//{zoomlevel:{"arr_name":"something","arr_list":"something"},}
+
+      var myTimer;
+      $( function() {
+        $( "#slider-range" ).slider({
+          range: true,
+          min: 1,
+          max: 18,
+          values: [ 10, 12 ],
+          slide: function( event, ui ) {
+            $( "#amount" ).val(  ui.values[ 0 ] +"~"+ ui.values[ 1 ] );
+          }
+        });
+        $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +"~"+
+          $( "#slider-range" ).slider( "values", 1 ) );
+
+     });
+      function getImage(urlin,urlmid){
+        if (typeof urlmid == 'undefined') return;
+        //console.log(urlmid.replaceAll("/","_")+".png");
+        //return;
+        axios({
+              url: urlin+urlmid+".png",
+              method: 'GET',
+              responseType: 'blob'
+        }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+
+                    link.setAttribute('download', urlmid.replaceAll("/","_")+".png");
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    //console.log(link);
+                    ndownload=ndownload+1;
+                    //console.log(ndownload);
+                    $("#status").text("Downloading: "+ndownload.toString()+"/"+ntotaltiles.toString())+" ";
+              }).catch(error => {
+                console.log(error.response.data.error);
+                let para = document.createElement("P");               // Create a <p> element
+                para.innerText ="file failed:"+ urlin+urlmid+".png | "+error.response.data.error;               // Insert text
+                document.getElementById("editArea").appendChild(para);
+              })
+        return;
+      }
+
+      function loopdownload(totalcount,step,url,arr_list,timegap=1000){
+        var imagename="";
+        var tempcount=0;
+        if(tempcount<totalcount){
+          getImage(url,arr_list[tempcount]);
+        }
+        tempcount=tempcount+1;
+        myTimer=setInterval(function(){
+          while(tempcount%step != 0 && tempcount<totalcount){
+            getImage(url,arr_list[tempcount]);
+            console.log(tempcount%step,tempcount,totalcount);
+            tempcount=tempcount+1;
+          }
+          if(tempcount<totalcount){
+            getImage(url,arr_list[tempcount]);
+          }
+          else{
+            clearInterval(myTimer);
+            console.log("here");
+          }
+          console.log(tempcount);
+          $( "#status" ).val("Downloading: "+tempcount.toString()+"/"+totalcount.toString());
+          tempcount=tempcount+1;
+        }, timegap);
+        return;
+      }
+
+      function myStopFunction() {
+        console.log("stop");
+        clearInterval(myTimer);
+        $( "#status" ).val("Stopped.");
+      }
+
+      function myFunction() {
+        console.log(tile_arr);
+        //getImageFromMapServerRestAPI();
+        let step=$( "#packsizerange" ).val();
+        let tgap=$( "#gaprange" ).val();
+
+        let zoommin=$( "#slider-range" ).slider( "values", 0 );
+        let zoommax=$( "#slider-range" ).slider( "values", 1 );
+
+        let url=url_obj[$( "#mapservice" ).val()];
+        if(tile_arr.length>0){
+          loopdownload(ntotaltiles,parseInt(step),url,tile_arr,tgap);
+        }
+        return;
+      }
+
+      function preCalculate(){
+        tile_arr=[];
+        let latT=$("#txtin_tlat").val();
+        let longL=$("#txtin_llong").val();
+        let latB=$("#txtin_blat").val();
+        let longR=$("#txtin_rlong").val();
+        let zoommin=$( "#slider-range" ).slider( "values", 0 );
+        let zoommax=$( "#slider-range" ).slider( "values", 1 );
+        //let zoom=range(zoommin,zoommax);//[10,11,12,13];
+        //let url="https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/";
+
+        ntotaltiles=0;
+        let res_out="Estimated numbers: \r\n";
+        for(let i=zoommin;i<=zoommax;++i){
+          //{"arr_url":resarr,"arr_name":resarrname};
+          //latT, longL, latB, longR
+          //let arr_list=ListLatLong_ESRI(37.5,-81,36.5,-79.5, i);
+          //
+
+          //let arr_list=ListLatLong_ESRI(37.3, -81.2, 37.1, -81, i);
+          let tlen=ListLatLong_ESRI(parseFloat(latT), parseFloat(longL), parseFloat(latB), parseFloat(longR), i);
+          ntotaltiles=ntotaltiles+tlen;
+
+          //arr_url,arr_name
+          console.log(latT, longL, latB, longR, i);
+          res_out=res_out+"zoom level:"+i.toString()+", tiles:"+tlen.toString()+"\r\n";
+        }
+        //loopdownload(arr_list.arr_url.length,10,arr_list);
+        //display
+        let etime=Math.floor(ntotaltiles/parseFloat($("#packsizerange").val())) * parseFloat($("#gaprange").val())/1000;
+        res_out=res_out+"Total images: "+ ntotaltiles.toString()+"; Estimated time: "+etime.toString()+" min;\r\n";
+        $("#downloadestimation").text(res_out);
+        console.log(res_out);
+      }
+
+      function degrees_to_radians(degrees)
+      {
+        let pi = Math.PI;
+        return degrees * (pi/180);
+      }
+      function radians_to_degrees(radians)
+      {
+        let pi = Math.PI;
+        return radians * (180/pi);
+      }
+
+      //https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+      //deg2num(lat_deg, lon_deg, zoom)
+      function WorldToTilePos(lon_deg, lat_deg, zoom){
+        let lat_rad = degrees_to_radians(lat_deg);
+        let n=2.0 ** zoom;
+        let xtile = (lon_deg + 180.0) / 360.0 * n;
+        let ytile = (1.0 - Math.asinh(Math.tan(lat_rad)) / Math.PI) / 2.0 * n;
+        return [xtile,ytile];
+      }
+      //num2deg(xtile, ytile, zoom)
+      function TileToWorldPos(xtile, ytile, zoom)
+      {
+        let n = 2.0 ** zoom;
+        lon_deg = xtile / n * 360.0 - 180.0;
+        lat_rad = Math.atan(Math.sinh(Math.PI * (1 - 2 * ytile / n)));
+        lat_deg = radians_to_degrees(lat_rad);
+        return [lon_deg,lat_deg];
+      }
+
+      function ListLatLong_ESRI(latT, longL, latB, longR, zoom){
+
+            let pTL = WorldToTilePos(longL, latT, zoom);
+            let pTR = WorldToTilePos(longR, latT, zoom);
+            let pBL = WorldToTilePos(longL, latB, zoom);
+            let pBR = WorldToTilePos(longR, latB, zoom);
+
+            let minx = Math.round(Math.min(pTL[0], pTR[0]));
+            let maxx = Math.round(Math.max(pTL[0], pTR[0]));
+            let miny = Math.round(Math.min(pTL[1], pBL[1]));
+            let maxy = Math.round(Math.max(pTL[1], pBL[1]));
+
+            let totalTiles = (maxx - minx) * (maxy - miny);
+            console.log(totalTiles);
+            // https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/14/6362/4528.png
+            //let url1=url;//"https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/";//best
+            let urlmid;
+            for (let x = minx; x < maxx; x++){
+              for (let y = miny; y < maxy; y++){
+                //https://carto.nationalmap.gov/arcgis/sdk/rest/index.html#/Export_Image/02ss00000075000000/
+                //bbox Syntax: <xmin>, <ymax>, <xmax>, <ymin>
+                //Example: bbox=-104,35.6,-94.32,41
+                //x,y,z to lat
+                urlmid=zoom.toString()+"/"+y.toString()+"/"+x.toString();
+                tile_arr.push(urlmid);
+              }
+            }
+            console.log(tile_arr);
+            return totalTiles;
+      }
+
+    </script>
+</html>

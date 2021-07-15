@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^getwatershed$',TaskGenerationView.getwatershed,name='getwatershed'),
     url(r'^getsegmentVal$',TaskGenerationView.getSegmentVal,name='getsegmentVal'),
     url(r'^gpsdatastorage$',TaskGenerationView.gpsdatastorage,name='gpsdatastorage'),
-    url(r'^demo$',TemplateView.as_view(template_name="app3/getContourTiles.html"), name="demo"),
+    url(r'^tiledownload$',TemplateView.as_view(template_name="app3/tileDownload.html"), name="tiledownload"),
     url(r'^offline$',TemplateView.as_view(template_name="app3/offlinemapdemoWebTile.html"), name="offline"),
     url(r'^openstreatmap$',TemplateView.as_view(template_name="app3/openstreatmap.html"), name="openstreatmap"),
     url(r'^taskgenerationform/(?P<task_id>\w+)_(?P<subtask_id>\d+)/$',TaskGenerationFormView.as_view(),name="taskgenerationform"),
