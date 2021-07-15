@@ -1,5 +1,5 @@
-#offline version notes (07/2021)
-Entrance: Taskgeneration.html
+# Offline version notes (07/2021)
+Entrance: (Taskgeneration.html) http://127.0.0.1:8000/
 1. arcgis api download and put in static folder
 2. setup arcgis javascript. modify file: 4.19\init.js [HOSTNAME_AND_PATH_TO_JSAPI] to baseUrl:"/static/arcgis_js_api/4.19/dojo"
 3. layers: gray, topo, contour(pending),  
@@ -9,6 +9,18 @@ Entrance: Taskgeneration.html
 7. 3 map resources are avaliable, topo is the best, gray map is the based, contour map need debugging. If more map tile servers could be found, just change the url.
 8. copy downloaded map to  static/maptile/org, then use supportedfiles/TileImagestoFolder.py to establish to osm folders
 8. alternative option: use "Global mapper 30 days free" to download
+
+
+# Tile Download Module
+Entrance:(tileDownload.html) http://127.0.0.1:8000/tiledownload
+1. Need internet to download image to local default download folder: ‪/Users/username/Downloads
+2. Copy all the files to server folder sarweboffline/static/maptile/org
+3. run supportedfiles/TileImagestoFolder.py
+4. put the files to layer folder
+5. modify layers in Taskgeneration.html
+6. enjoy:)
+![tiledownload](screen/tiledownload.png)
+Notes: the tileDownload.html code code run on any online html sandbox. All u need is to copy the code and run. Then use TileImagestoFolder.py to structure the images to layerfolders.
 
 # SAR Web User Interface Demo
 ![Offline interface](screen/offline.png)
@@ -32,14 +44,13 @@ Reference
 [ESRI Javascript API](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#width)
 
 URL
-http://127.0.0.1:8000/app3/
+http://127.0.0.1:8000/
 -----------2019 07 09-------------
 Add two methods of generate heatmap
 - add coordinate to geojsonLayer
 - add a png file to viewdiv
 
 ![geojsonLayer](screen/heatmap_esri.png)
-![lostpersonmodel](screen/lost_person_model.png)
 ![watersheld](screen/watersheld.png)
 ![watersheld2](screen/watersheld2.png)
 
