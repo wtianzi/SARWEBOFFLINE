@@ -28,11 +28,11 @@
           <label for="txtin_tlat">Top latitude (N.ymax):</label>
           <input type="number" id="txtin_tlat" name="txtin_tlat" value="37.240263" step="0.1"><br>
           <label for="txtin_blat">Buttom latitude (N.ymin):</label>
-          <input type="number" id="txtin_blat" name="txtin_blat" value="37.212441" step="0.1"><br>
+          <input type="number" id="txtin_blat" name="txtin_blat" value="37.162441" step="0.1"><br>
           <label for="txtin_llong">Left Longitude (W.xmin):</label>
-          <input type="number" id="txtin_llong" name="txtin_llong" value="-80.451436" step="0.1"><br>
+          <input type="number" id="txtin_llong" name="txtin_llong" value="-80.581436" step="0.1"><br>
           <label for="txtin_rlong">Right Longitude (W.xmax):</label>
-          <input type="number" id="txtin_rlong" name="txtin_rlong" value="-80.411743" step="0.1"><br>
+          <input type="number" id="txtin_rlong" name="txtin_rlong" value="-80.371743" step="0.1"><br>
         </div>
         <br>
         <div>
@@ -110,7 +110,7 @@
         "arcgisgray":"https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/",
         "contour":"https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer/export?bbox=-80.580552%2C37.190493%2C-80.562082%2C37.171017&f=image&format=png&transparent=false&imageSR=4326&bboxSR=4326",
         "usatopo": "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/",
-        "openstreetmap":"https://a.tile.openstreetmap.org/",
+        "openstreetmap":"https://tile.openstreetmap.org/",//https://wiki.openstreetmap.org/wiki/Tile_servers
         "openstreetmap_de":"https://tile.openstreetmap.de/",
         "World_Transportation":"https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer/tile/",
         "World_Topo_Map":"https://server.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/tile/",
@@ -119,13 +119,14 @@
 
       var tile_arr=[];//{zoomlevel:{"arr_name":"something","arr_list":"something"},}
       let ncountout=0;
+      var selmodel=0;
       var myTimer;
       $( function() {
         $( "#slider-range" ).slider({
           range: true,
           min: 1,
           max: 18,
-          values: [ 10, 12 ],
+          values: [ 9, 14 ],
           slide: function( event, ui ) {
             $( "#amount" ).val(  ui.values[ 0 ] +"~"+ ui.values[ 1 ] );
           }
@@ -139,11 +140,22 @@
        if (typeof urlmid == 'undefined') return;
        let urimg=urlin+urlmid+".png";
        let URL = "{% url 'tiledownloadpage' %}";
+       let tilename=urlmid;
+       if(selmodel==0){
+         tilename=urlmid;
+       }
+       else if(selmodel==2) {
+         // reverse x and y
+         let tarr=urlmid.split('/');
+         console.log(tarr);
+         tilename=tarr[0]+"/"+tarr[2]+"/"+tarr[1];
+         console.log(urlmid,tilename);
+       }
        let data = {
          csrfmiddlewaretoken: '{{ csrf_token }}',
          'urimg': urimg,
          'sourcename': $( "#mapservice" ).val(),
-         'tilename': urlmid,
+         'tilename': tilename,
          'ndownload':ndownload.toString()
        };
        $.post(URL, data, function(response){
@@ -257,6 +269,8 @@
       function myFunction() {
         //console.log(tile_arr);
         //getImageFromMapServerRestAPI();
+        ndownload=0;
+        ncountout=0;
         let step=$( "#packsizerange" ).val();
         let tgap=$( "#gaprange" ).val();
 
@@ -272,6 +286,7 @@
 
       function preCalculate(){
         ndownload=0;
+        ncountout=0;
         tile_arr=[];
         let latT=$("#txtin_tlat").val();
         let longL=$("#txtin_llong").val();
@@ -285,11 +300,16 @@
         ntotaltiles=0;
         let res_out="Estimated numbers: \r\n";
 
-        let selmodel=0;
-        if($( "#mapservice" ).val()=="openstreetmap" || $( "#mapservice" ).val()=="openstreetmap_de"){
+        selmodel=2;
+        //selmodel=1: $( "#mapservice" ).val()=="openstreetmap" || $( "#mapservice" ).val()=="openstreetmap_de"
+        if($( "#mapservice" ).val()=="openstreetmap" || $( "#mapservice" ).val()=="openstreetmap_de" ){
           selmodel=1;
         }
+        else if($( "#mapservice" ).val()=="usatopo" || $( "#mapservice" ).val()=="arcgisgray" ){
+          selmodel=2;
+        }
         else{
+          // World_Topo_Map
           selmodel=0;
         }
 
@@ -370,11 +390,11 @@
                 //bbox Syntax: <xmin>, <ymax>, <xmax>, <ymin>
                 //Example: bbox=-104,35.6,-94.32,41
                 //x,y,z to lat
-                if(model==0){
-                  urlmid=zoom.toString()+"/"+y.toString()+"/"+x.toString();
+                if(model==1 ){
+                  urlmid=zoom.toString()+"/"+x.toString()+"/"+y.toString();
                 }
                 else{
-                  urlmid=zoom.toString()+"/"+x.toString()+"/"+y.toString();
+                  urlmid=zoom.toString()+"/"+y.toString()+"/"+x.toString();
                 }
 
                 tile_arr.push(urlmid);
