@@ -27,31 +27,13 @@ Notes: If adding new tile layers to the downloading in html, please aware the x 
 ![Trajectory](screen/trajectory.gif)
 ![Heatmap](screen/trail_hiker1_heatmap.gif)
 [more examples](screen/)
+
 ## Built based on
 - DJango as sever
 - ESRI js development platform,
 - d3 for polygon and voronoi.
 - SQLite as database
 - DJango REST freamwork is needed
-
-https://sar.caslab.ece.vt.edu/
-http://sar.caslab.ece.vt.edu/experiment
-
-User interface demo: [https://sites.google.com/vt.edu/vacsesardemo](https://sites.google.com/vt.edu/vacsesardemo/home)
-
-Reference
-[ESRI Javascript API](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#width)
-
-URL
-http://127.0.0.1:8000/
------------2019 07 09-------------
-Add two methods of generate heatmap
-- add coordinate to geojsonLayer
-- add a png file to viewdiv
-
-![geojsonLayer](screen/heatmap_esri.png)
-![watersheld](screen/watersheld.png)
-![watersheld2](screen/watersheld2.png)
 
 -----------2019 06 12-------------
 
@@ -125,15 +107,3 @@ Entrance:(tileDownload.html) http://127.0.0.1:8000/tiledownload
 Notes: the tileDownload.html code code run on any online html sandbox. All u need is to copy the code and run. Then use TileImagestoFolder.py to structure the images to layerfolders.
 
 
-Updates Log
-
---------------Nov------------------
-1. Need to find the algrithm of generating convex polygon based on multi-points.
-2. Add function of marking
-
------------2019 02 18---------------
-esri javascript
-polygon
-sketchviewmodel
-
-Testing URL: http://127.0.0.1:8000/app3/sketch
