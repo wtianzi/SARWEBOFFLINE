@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from . import views
-from app3.views import IndexView,TaskGenerationView,TaskGenerationFormView,TaskassignmentExperimentView,TaskassignmentFullView,TaskIndexView
+from app3.views import IndexView,TaskGenerationView,TaskGenerationFormView,TaskassignmentExperimentView,TaskassignmentFullView,TaskIndexView,TileDownloadView
 from django.conf.urls import url
 from rest_framework import routers
 from django.conf.urls import include
@@ -34,7 +34,10 @@ urlpatterns = [
     url(r'^getwatershed$',TaskGenerationView.getwatershed,name='getwatershed'),
     url(r'^getsegmentVal$',TaskGenerationView.getSegmentVal,name='getsegmentVal'),
     url(r'^gpsdatastorage$',TaskGenerationView.gpsdatastorage,name='gpsdatastorage'),
-    url(r'^tiledownload$',TemplateView.as_view(template_name="app3/tileDownload.html"), name="tiledownload"),
+
+    #url(r'^tiledownload$',TemplateView.as_view(template_name="app3/tileDownload.html"), name="tiledownload"),
+    url(r'^tiledownload$',TileDownloadView.as_view(), name="tiledownload"),
+    url(r'^tiledownloadpage$',TileDownloadView.download,name='tiledownloadpage'),
     url(r'^offline$',TemplateView.as_view(template_name="app3/offlinemapdemoWebTile.html"), name="offline"),
     url(r'^openstreatmap$',TemplateView.as_view(template_name="app3/openstreatmap.html"), name="openstreatmap"),
     url(r'^taskgenerationform/(?P<task_id>\w+)_(?P<subtask_id>\d+)/$',TaskGenerationFormView.as_view(),name="taskgenerationform"),

@@ -80,6 +80,7 @@
         <br>
         <div>
           <label id="status">Download Status: Wait</label>
+          <br>
           <button id="btnDownload" onclick="myFunction()">Download</button>
           <button onclick="myStopFunction()">Stop</button>
         </div>
@@ -117,7 +118,7 @@
       };
 
       var tile_arr=[];//{zoomlevel:{"arr_name":"something","arr_list":"something"},}
-
+      let ncountout=0;
       var myTimer;
       $( function() {
         $( "#slider-range" ).slider({
@@ -133,33 +134,90 @@
           $( "#slider-range" ).slider( "values", 1 ) );
 
      });
-      function getImage(urlin,urlmid){
-        if (typeof urlmid == 'undefined') return;
-        //console.log(urlmid.replaceAll("/","_")+".png");
-        //return;
-        axios({
-              url: urlin+urlmid+".png",
-              method: 'GET',
-              responseType: 'blob'
-        }).then((response) => {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
+     function downloadImageToServer(urlin,urlmid){
+       ndownload=ndownload+1;
+       if (typeof urlmid == 'undefined') return;
+       let urimg=urlin+urlmid+".png";
+       let URL = "{% url 'tiledownloadpage' %}";
+       let data = {
+         csrfmiddlewaretoken: '{{ csrf_token }}',
+         'urimg': urimg,
+         'sourcename': $( "#mapservice" ).val(),
+         'tilename': urlmid,
+         'ndownload':ndownload.toString()
+       };
+       $.post(URL, data, function(response){
+         let res=JSON.parse(response);
+         if(res.flag == "success"){
+           let timgcount=parseInt(res.ndownload);
+           if (ncountout<timgcount){
+             ncountout=timgcount;
+           }
+           $("#status").text("Downloaded: "+ncountout.toString()+"/"+ntotaltiles.toString())+"";
+         }
+         else{
+           let para = document.createElement("P");               // Create a <p> element
+           para.innerText ="file failed:"+ urlin+urlmid+".png | failed";               // Insert text
+           document.getElementById("editArea").appendChild(para);
+         }
+         });
+       return;
+     }
+     function getImageHTML(urlin,urlmid){
 
-                    link.setAttribute('download', urlmid.replaceAll("/","_")+".png");
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    //console.log(link);
-                    ndownload=ndownload+1;
-                    //console.log(ndownload);
-                    $("#status").text("Downloading: "+ndownload.toString()+"/"+ntotaltiles.toString())+" ";
-              }).catch(error => {
-                console.log(error.response.data.error);
-                let para = document.createElement("P");               // Create a <p> element
-                para.innerText ="file failed:"+ urlin+urlmid+".png | "+error.response.data.error;               // Insert text
-                document.getElementById("editArea").appendChild(para);
-              })
+               // 07/10/2022
+               // the following part can download image using any online html sandbox
+               /*
+               # Tile Download Module (07/2021)
+               Entrance:(tileDownload.html) http://127.0.0.1:8000/tiledownload
+               1. Need internet to download image to local default download folder: ‪/Users/username/Downloads
+               2. Copy all the files to server folder sarweboffline/static/maptile/org
+               3. run supportedfiles/TileImagestoFolder.py
+               4. put the files to layer folder
+               5. modify layers in Taskgeneration.html: be aware that the {row}{col} are different among different services
+               6. if adding new tile layers to the downloading, please aware the x and y is different among different tile servers
+               7. test it and enjoy:)
+               ![tiledownload](screen/tiledownload.png)
+               Notes: the tileDownload.html code code run on any online html sandbox. All u need is to copy the code and run. Then use TileImagestoFolder.py to structure the images to layerfolders.
+               */
+
+               //console.log('urlin+urlmid',urlin+urlmid+".png");
+         if (typeof urlmid == 'undefined') return;
+         //console.log(urlmid.replaceAll("/","_")+".png");
+         //return;
+         axios({
+               url: urlin+urlmid+".png",
+               method: 'GET',
+               responseType: 'blob'
+         }).then((response) => {
+                     const url = window.URL.createObjectURL(new Blob([response.data]));
+                     //console.log('url',url);
+                     const link = document.createElement('a');
+                     link.href = url;
+
+                     link.setAttribute('download', urlmid.replaceAll("/","_")+".png");
+                     document.body.appendChild(link);
+                     link.click();
+                     document.body.removeChild(link);
+                     //console.log(link);
+                     ndownload=ndownload+1;
+                     //console.log(ndownload);
+                     $("#status").text("Downloading: "+ndownload.toString()+"/"+ntotaltiles.toString())+" ";
+               }).catch(error => {
+                 //console.log(error.response.data.error);
+                 let para = document.createElement("P");               // Create a <p> element
+                 para.innerText ="file failed:"+ urlin+urlmid+".png | "+error.response.data.error;               // Insert text
+                 document.getElementById("editArea").appendChild(para);
+               })
+         return;
+     }
+      function getImage(urlin,urlmid){
+        // for server use only
+        downloadImageToServer(urlin,urlmid);
+        return;
+
+        // for sandbox use
+        getImageHTML(urlin,urlmid);
         return;
       }
 
@@ -181,7 +239,7 @@
           }
           else{
             clearInterval(myTimer);
-            console.log("here");
+            //console.log("here");
           }
           console.log(tempcount);
           $( "#status" ).val("Downloading: "+tempcount.toString()+"/"+totalcount.toString());
@@ -197,7 +255,7 @@
       }
 
       function myFunction() {
-        console.log(tile_arr);
+        //console.log(tile_arr);
         //getImageFromMapServerRestAPI();
         let step=$( "#packsizerange" ).val();
         let tgap=$( "#gaprange" ).val();
@@ -255,7 +313,7 @@
         let etime=Math.floor(ntotaltiles/parseFloat($("#packsizerange").val())) * parseFloat($("#gaprange").val())/1000;
         res_out=res_out+"Total images: "+ ntotaltiles.toString()+"; Estimated time: "+etime.toString()+" min;\r\n";
         $("#downloadestimation").text(res_out);
-        console.log(res_out);
+        //console.log(res_out);
       }
 
       function degrees_to_radians(degrees)
@@ -322,7 +380,7 @@
                 tile_arr.push(urlmid);
               }
             }
-            console.log(tile_arr);
+            //console.log(tile_arr);
             return totalTiles;
       }
 

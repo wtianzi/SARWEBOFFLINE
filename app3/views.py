@@ -16,6 +16,7 @@ from rest_framework import permissions
 from .py.watershed import AreaSegment
 from .py.contourmapanalysis import SegmentWeight
 from .py.GetImageFromDrone import GetImageFromDrone
+from .py.blobdownload import downloadFromURL
 # Create your views here.
 
 
@@ -24,6 +25,7 @@ class IndexView(ListView):
 
     def get_queryset(self):
         return Person.objects.all()
+
 
 class TaskGenerationView(TemplateView):
     template_name='app3/Taskgeneration.html'
@@ -329,3 +331,17 @@ class ClueMediaViewSet(viewsets.ModelViewSet):
 
 class TaskassignmentFullView(TaskassignmentExperimentView):
     template_name='app3/Taskgeneration_full.html'
+
+
+class TileDownloadView(TemplateView):
+    template_name='app3/tileDownload.html'
+    def download(request):
+        if request.method == 'POST':
+            urimg= request.POST['urimg']
+            sourcename= request.POST['sourcename']
+            tilename=request.POST['tilename']
+
+            filename=downloadFromURL(urimg,sourcename,tilename)
+            context={'filename':filename,'ndownload':request.POST['ndownload'],'flag':'success'}
+            return HttpResponse(json.dumps(context))
+        return

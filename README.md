@@ -11,17 +11,15 @@ Entrance: (Taskgeneration.html) http://127.0.0.1:8000/
 8. alternative option: use "Global mapper 30 days free" to download
 
 
-# Tile Download Module
+# Tile Download Module (07/2022)
 Entrance:(tileDownload.html) http://127.0.0.1:8000/tiledownload
-1. Need internet to download image to local default download folder: ‪/Users/username/Downloads
-2. Copy all the files to server folder sarweboffline/static/maptile/org
-3. run supportedfiles/TileImagestoFolder.py
-4. put the files to layer folder
-5. modify layers in Taskgeneration.html: be aware that the {row}{col} are different among different services
-6. if adding new tile layers to the downloading, please aware the x and y is different among different tile servers
-7. test it and enjoy:)
+1. Need internet to download image to server folder: /static/maptile/map_service_name
+2. Enter the boundary, scale range (the larger, the more detailed), choose a map service
+3. Click "Pre Calculation" to estimate download time
+4. Click "Download"
+5. The number of downloaed images are shwon: "Downloaded current_downloaded/total_tiles"
 ![tiledownload](screen/tiledownload.png)
-Notes: the tileDownload.html code code run on any online html sandbox. All u need is to copy the code and run. Then use TileImagestoFolder.py to structure the images to layerfolders.
+Notes: If adding new tile layers to the downloading in html, please aware the x and y is different among different tile service.
 
 # SAR Web User Interface Demo
 ![Offline interface](screen/offline.png)
@@ -112,6 +110,19 @@ r = requests.patch('http://127.0.0.1:8000/app3/gpsdatas/max_testing/', auth=('us
 3. Operate in browser:
 Open the link in chrome: http://127.0.0.1:8000/app3/gpsdatas/
 
+
+-------------------------------
+# Tile Download Module (07/2021)
+Entrance:(tileDownload.html) http://127.0.0.1:8000/tiledownload
+1. Need internet to download image to local default download folder: ‪/Users/username/Downloads
+2. Copy all the files to server folder sarweboffline/static/maptile/org
+3. run supportedfiles/TileImagestoFolder.py
+4. put the files to layer folder
+5. modify layers in Taskgeneration.html: be aware that the {row}{col} are different among different services
+6. if adding new tile layers to the downloading, please aware the x and y is different among different tile servers
+7. test it and enjoy:)
+![tiledownload](screen/tiledownload.png)
+Notes: the tileDownload.html code code run on any online html sandbox. All u need is to copy the code and run. Then use TileImagestoFolder.py to structure the images to layerfolders.
 
 
 Updates Log
