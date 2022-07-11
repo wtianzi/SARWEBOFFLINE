@@ -18,14 +18,12 @@ Entrance:(tileDownload.html) http://127.0.0.1:8000/tiledownload
 3. Click "Pre Calculation" to estimate download time
 4. Click "Download"
 5. The number of downloaed images are shwon: "Downloaded current_downloaded/total_tiles"
-![tiledownload](screen/tiledownload.png)
+![tiledownload](screen/downloadpage.png)
 Notes: If adding new tile layers to the downloading in html, please aware the x and y is different among different tile service.
 
 # SAR Web User Interface Demo
-![Offline interface](screen/offline.png)
-![Web interface](screen/taskassign.png)
-![Trajectory](screen/trajectory.gif)
-![Heatmap](screen/trail_hiker1_heatmap.gif)
+![Offline interface](screen/offline2.png)
+
 [more examples](screen/)
 
 ## Built based on
