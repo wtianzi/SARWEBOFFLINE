@@ -3404,6 +3404,9 @@
                }
          });
       //--------------------------------------------------
+      $("#flip0").click(function(){
+        $("#panel0").slideToggle("slow");
+      });
       $("#flip1").click(function(){
         $("#panel1").slideToggle("slow");
       });
@@ -3425,6 +3428,11 @@
 <body>
   <div id="editArea" class="editArea-container">
     <h3 class="list-heading" style="display:none" >Search & Rescue Tools</h3>
+    <div id="flip0" class="flip">Offline Map Download</div>
+    <div id="panel0" style="display:none">
+      <a href="tiledownload">Map download page</a>
+    </div>
+    <hr/>
     <div id="flip1" class="flip">Map Division</div>
     <div id="panel1" style="display:none">
       <h3 class="list-heading" style="display:none">Map Division</h3>
